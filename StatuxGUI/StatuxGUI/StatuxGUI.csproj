@@ -1,0 +1,63 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="appsettings.json" />
+    <None Remove="Assets\Icons\calendarIcon.png" />
+    <None Remove="Assets\Icons\cpuCoreIcon.png" />
+    <None Remove="Assets\Icons\cpuIcon.png" />
+    <None Remove="Assets\Icons\homeIcon.png" />
+    <None Remove="Assets\Icons\machineIcon.png" />
+    <None Remove="Assets\Icons\processIcon.png" />
+    <None Remove="Assets\Images\tux.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="appsettings.json" />
+    <EmbeddedResource Include="Assets\Icons\calendarIcon.png" />
+    <EmbeddedResource Include="Assets\Icons\homeIcon.png" />
+    <EmbeddedResource Include="Assets\Icons\machineIcon.png" />
+    <EmbeddedResource Include="Assets\Icons\cpuCoreIcon.png" />
+    <EmbeddedResource Include="Assets\Icons\cpuIcon.png" />
+    <EmbeddedResource Include="Assets\Icons\processIcon.png" />
+    <EmbeddedResource Include="Assets\Images\tux.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microcharts.Forms" Version="0.9.5.9" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Refractored.MvvmHelpers" Version="1.6.2" />
+    <PackageReference Include="System.Net.Http" Version="4.3.4" />
+    <PackageReference Include="Xamarin.CommunityToolkit" Version="2.0.4" />
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2515" />  
+    <PackageReference Include="Xamarin.Essentials" Version="1.7.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Views\MachinesListPage.xaml.cs">
+      <DependentUpon>MachinesListPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\ProcessListPage.xaml.cs">
+      <DependentUpon>ProcessListPage.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Views\HomePage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\MachineDetailsPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\ProcessDetailsPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\ProcessListPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:viewmodels="clr-namespace:StatuxGUI.ViewModels"
+             xmlns:model="clr-namespace:StatuxGUI.Models"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:chart="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms"
+             xmlns:localImageResource="clr-namespace:StatuxGUI.Services"
+             x:Class="StatuxGUI.Views.ProcessDetailsPage">
+
+    <ContentPage.BindingContext>
+        <viewmodels:ProcessDetailsViewModel/>
+    </ContentPage.BindingContext>
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem IconImageSource="{localImageResource:ImageResource StatuxGUI.Assets.Icons.calendarIcon.png}" Command="{Binding FilterCommand}"/>
+    </ContentPage.ToolbarItems>
+
+    <ContentPage.Behaviors>
+        <xct:EventToCommandBehavior
+            EventName="Appearing"
+            Command="{Binding RefreshCommand}"/>
+    </ContentPage.Behaviors>
+
+    <RefreshView IsRefreshing="{Binding IsBusy, Mode=TwoWay}"
+                 Command="{Binding RefreshCommand}">
+        <StackLayout>
+            <ScrollView Margin="0,0,0,10" >
+                <Grid BackgroundColor="{Binding BackgroundColor}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="100"/>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Label
+                        x:Name="ProcessName"
+                        Grid.Row="0"
+                        FontSize="25"
+                        VerticalOptions="CenterAndExpand"
+                        HorizontalOptions="CenterAndExpand"
+                        Text="{Binding SelectedProcess.Name}"
+                        BackgroundColor="Transparent"
+                        TextColor="Black"/>
+
+                    <Label
+                        x:Name="ProcessID"
+                        Grid.Row="1"
+                        VerticalOptions="CenterAndExpand"
+                        HorizontalOptions="CenterAndExpand"
+                        FontSize="15"
+                        Text="{Binding SelectedProcessID}"
+                        BackgroundColor="Transparent"
+                        TextColor="Black"/>
+
+                    <ListView
+                        x:Name="ProcessDetailsList"
+                        Grid.Row="2"
+                        ItemsSource="{Binding ProcessDetails}"
+                        BackgroundColor="Transparent"
+                        HasUnevenRows="True">
+
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="model:ProcessStatus">
+                                <ViewCell>
+                                    <StackLayout
+                                Padding="10">
+                                        <Label VerticalOptions="Center"
+                                           FontSize="20"
+                                           Text="{Binding Time, StringFormat='Time: {0}'}"
+                                           TextColor="Black"/>
+                                        <Label VerticalOptions="Center"
+                                            FontSize="20"
+                                            Text="{Binding State, StringFormat='State: {0}'}"
+                                            TextColor="Black"/>
+                                        <Label VerticalOptions="Center"
+                                            FontSize="20"
+                                            Text="{Binding CpuUtil, StringFormat='CPU Utilization: {0}%'}"
+                                            TextColor="Black"/>
+                                        <Label VerticalOptions="Center"
+                                            FontSize="20"
+                                            Text="{Binding Threads, StringFormat='Threads: {0}'}"
+                                            TextColor="Black"/>
+                                    </StackLayout>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Grid>
+            </ScrollView>
+            <StackLayout BackgroundColor="{Binding ChartBackgroundColor}">
+                <Label
+                    Text="CPU Utilization" FontSize="Medium" HorizontalOptions="CenterAndExpand" TextColor="Black"/>
+                <chart:ChartView
+                    x:Name="processPerformanceChart" 
+                    HeightRequest="150"
+                    Chart="{Binding ProcessPerformanceChart}"/>
+            </StackLayout>
+            
+        </StackLayout>
+    </RefreshView>
+</ContentPage>

@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:StatuxGUI.ViewModels"
+             xmlns:model="clr-namespace:StatuxGUI.Models"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             x:Class="StatuxGUI.Views.MachinesListPage"
+             x:DataType="viewmodels:MachinesListViewModel">
+
+    <ContentPage.BindingContext>
+        <viewmodels:MachinesListViewModel/>
+    </ContentPage.BindingContext>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <xct:ItemSelectedEventArgsConverter x:Key="ItemSelectedEventArgsConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.Behaviors>
+        <xct:EventToCommandBehavior
+            EventName="Appearing"
+            Command="{Binding RefreshCommand}"/>
+    </ContentPage.Behaviors>
+
+    <StackLayout BackgroundColor="{Binding BackgroundColor}">
+        <ListView 
+            ItemsSource="{Binding Machines}"
+            HasUnevenRows="True"
+            IsPullToRefreshEnabled="True"
+            RefreshCommand="{Binding RefreshCommand}"
+            IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+            SelectedItem="{Binding SelectedMachine, Mode=TwoWay}">
+            
+            <ListView.Behaviors>
+                <xct:EventToCommandBehavior
+                    EventName="ItemSelected"
+                    Command="{Binding SelectedCommand}"
+                    EventArgsConverter="{StaticResource ItemSelectedEventArgsConverter}"/>
+            </ListView.Behaviors>
+            
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="model:Machine">
+                    <ViewCell>
+                        <Grid Padding="10">
+                            <StackLayout>
+                                <Frame>
+                                    <Label VerticalOptions="Center"
+                                       FontSize="15"
+                                       TextColor="Black"
+                                       Text="{Binding Name}"/>
+                                </Frame>
+                            </StackLayout>
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <Entry x:Name="FilterMachineNameEntry"
+            Placeholder="Filter by name"
+            Margin="10"
+            Text="{Binding FilterEntry}">
+            <Entry.Behaviors>
+                <xct:EventToCommandBehavior
+                    EventName="TextChanged"
+                    Command="{Binding FilterMachinesCommand}"/>
+            </Entry.Behaviors>
+        </Entry>
+    </StackLayout>
+
+</ContentPage>

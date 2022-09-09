@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:StatuxGUI.ViewModels"
+             xmlns:model="clr-namespace:StatuxGUI.Models"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             x:Class="StatuxGUI.Views.ProcessListPage"
+             x:DataType="viewmodels:ProcessListViewModel">
+
+    <ContentPage.BindingContext>
+        <viewmodels:ProcessListViewModel/>
+    </ContentPage.BindingContext>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <xct:ItemSelectedEventArgsConverter x:Key="ItemSelectedEventArgsConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.Behaviors>
+        <xct:EventToCommandBehavior
+            EventName="Appearing"
+            Command="{Binding RefreshMachinesCommand}"/>
+    </ContentPage.Behaviors>
+
+    <RefreshView IsRefreshing="{Binding IsBusy, Mode=TwoWay}"
+                 Command="{Binding RefreshFullCommand}">
+
+        <StackLayout BackgroundColor="{Binding BackgroundColor}">
+            <Picker
+                Margin="3"
+                Title="Available machines"
+                FontSize="25"
+                ItemsSource="{Binding AvailableMachines}"
+                ItemDisplayBinding="{Binding Name}"
+                SelectedItem="{Binding SelectedMachine, Mode=TwoWay}"
+                TitleColor="Gray"
+                TextColor="Black">
+                <Picker.Behaviors>
+                    <xct:EventToCommandBehavior
+                        EventName="SelectedIndexChanged"
+                        Command="{Binding RefreshProcessesCommand}"/>
+                </Picker.Behaviors>
+            </Picker>
+            <ScrollView Margin="5">
+                <ListView
+                    ItemsSource="{Binding Processes}"
+                    BackgroundColor="Transparent"
+                    HasUnevenRows="True"
+                    SelectedItem="{Binding SelectedProcess, Mode=TwoWay}">
+
+                    <ListView.Behaviors>
+                        <xct:EventToCommandBehavior
+                            EventName="ItemSelected"
+                            Command="{Binding SelectedProcessCommand}"
+                            EventArgsConverter="{StaticResource ItemSelectedEventArgsConverter}"/>
+                    </ListView.Behaviors>
+
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="model:Process">
+                            <ViewCell>
+                                <StackLayout Padding="10">
+                                    <Label 
+                                        VerticalOptions="CenterAndExpand"
+                                        FontSize="20"
+                                        Text="{Binding Name, StringFormat='Name: {0}'}"
+                                        TextColor="Black"/>
+                                    <Label
+                                        VerticalOptions="CenterAndExpand"
+                                        FontSize="15"
+                                        Text="{Binding ProcessIdSystem, StringFormat='Process ID in system: {0}'}"
+                                        TextColor="Black"/>
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </ScrollView>
+        </StackLayout>
+    </RefreshView>
+</ContentPage>
