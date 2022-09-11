@@ -12,10 +12,6 @@
         <viewmodels:ProcessDetailsViewModel/>
     </ContentPage.BindingContext>
 
-    <ContentPage.ToolbarItems>
-        <ToolbarItem IconImageSource="{localImageResource:ImageResource StatuxGUI.Assets.Icons.calendarIcon.png}" Command="{Binding FilterCommand}"/>
-    </ContentPage.ToolbarItems>
-
     <ContentPage.Behaviors>
         <xct:EventToCommandBehavior
             EventName="Appearing"

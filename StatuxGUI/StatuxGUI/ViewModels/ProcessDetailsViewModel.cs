@@ -45,7 +45,6 @@ namespace StatuxGUI.ViewModels
         }
 
         public AsyncCommand RefreshCommand { get; private set; }
-        public AsyncCommand FilterCommand { get; private set; }
 
         private string backgroundColor;
         public string BackgroundColor
@@ -66,7 +65,6 @@ namespace StatuxGUI.ViewModels
             _processService = DependencyService.Get<IProcessService>();
 
             RefreshCommand = new AsyncCommand(Refresh);
-            FilterCommand = new AsyncCommand(FilterByDate);
 
             Device.StartTimer(new TimeSpan(0, 0, 10), () =>
             {
@@ -107,12 +105,6 @@ namespace StatuxGUI.ViewModels
             await GetProcessDetails();
             IsBusy = false;
         }
-
-        private async Task FilterByDate()
-        {
-            //var beginDate = await App.Current.MainPage.DisplayPromptAsync("From Datetime");
-        }
-
         private void InitProcessChartData()
         {
             //potencijalno rjesenje ako zelim izbjeci svako iteriranje kroz processStatus
