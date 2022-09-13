@@ -88,7 +88,7 @@ namespace StatuxGUI.ViewModels
             }
             catch (Exception ex)
             {
-                
+                await App.Current.MainPage.DisplayAlert("Error", ex.Message, "Ok");
             }
         }
 
@@ -107,17 +107,6 @@ namespace StatuxGUI.ViewModels
         }
         private void InitProcessChartData()
         {
-            //potencijalno rjesenje ako zelim izbjeci svako iteriranje kroz processStatus
-            /*if (ProcessDetails == null)
-            {
-                Device.StartTimer(new TimeSpan(0, 0, 1), () =>
-                {
-                    InitProcessChartData();
-                    return false;
-                });
-                return;
-            }*/
-
             var processDetailsEntries = new List<ChartEntry>();
 
             foreach(var dataEntry in ProcessDetails.Skip(Math.Max(0, ProcessDetails.Count - 6)))

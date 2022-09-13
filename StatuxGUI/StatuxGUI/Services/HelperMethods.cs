@@ -15,7 +15,6 @@ namespace StatuxGUI.Services
         public static HttpClient CreateHttpClient()
         {
             HttpClient client;
-            //SocketsHttpHandler <- treba settati dns timeout preko ovoga
 #if DEBUG
             client = new HttpClient(GetInsecureHandler());
 #else
@@ -24,18 +23,7 @@ namespace StatuxGUI.Services
             client.Timeout = TimeSpan.FromSeconds(5);
             client.BaseAddress = new Uri(BaseAddress);
 
-            /*try
-            {
-                var dnsCheckup = System.Net.Dns.GetHostAddressesAsync(AppSettingsManager.Settings["main_ip"]);
-                if (!dnsCheckup.Wait(5000))
-                {
-                    throw new TimeoutException();
-                }
-            }
-            catch
-            {
-                throw;
-            }*/
+            //TODO: DNS checkup
 
             return client;
         }

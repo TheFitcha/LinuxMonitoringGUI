@@ -88,8 +88,6 @@ namespace StatuxGUI.ViewModels
             {
                 await Application.Current.MainPage.DisplayAlert("Alert", "Cannot get machines!", "Ok");
             }
-            
-            //Processes = null;
         }
         private async Task RefreshProcesses()
         {
@@ -116,8 +114,6 @@ namespace StatuxGUI.ViewModels
 
             var detailsRoute = $"{nameof(ProcessDetailsPage)}?SelectedProcessID={process.Id}";
             await Shell.Current.GoToAsync(detailsRoute);
-
-            //SelectedProcess = null;
         }
 
     }

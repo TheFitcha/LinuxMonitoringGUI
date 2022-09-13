@@ -38,7 +38,6 @@ namespace StatuxGUI.ViewModels
         }
 
         public AsyncCommand GetMachinesCommand { get; private set; }
-        public AsyncCommand GetMachinesByIdCommand { get; private set; }
         public AsyncCommand RefreshCommand { get; private set; }
         public AsyncCommand FilterMachinesCommand { get; private set; }
         public AsyncCommand<Machine> SelectedCommand { get; private set; }
@@ -58,7 +57,6 @@ namespace StatuxGUI.ViewModels
             allMachines = new ObservableCollection<Machine>();
             machines = new ObservableCollection<Machine>();
             GetMachinesCommand = new AsyncCommand(GetMachinesFromService);
-            GetMachinesByIdCommand = new AsyncCommand(GetMachinesByIdFromService);
             FilterMachinesCommand = new AsyncCommand(FilterMachineList);
             SelectedCommand = new AsyncCommand<Machine>(Selected);
 
@@ -79,8 +77,6 @@ namespace StatuxGUI.ViewModels
         private async Task InitMethod()
         {
             IsBusy = true;
-
-            //HelperMethods.CheckDNS();
 
             if(_machineService == null)
             {
@@ -112,11 +108,6 @@ namespace StatuxGUI.ViewModels
             }   
         }
 
-        private async Task GetMachinesByIdFromService()
-        {
-            //await processService.GetMachineById(id);
-        }
-
         private async Task FilterMachineList()
         {
             Machines = (FilterEntry == "") ? allMachines : new ObservableCollection<Machine>(allMachines.Where(x => x.Name.Contains(FilterEntry)));
@@ -135,9 +126,6 @@ namespace StatuxGUI.ViewModels
 
             var detailsRoute = $"{nameof(MachineDetailsPage)}?SelectedMachineID={machine.Id}";
             await Shell.Current.GoToAsync(detailsRoute);
-
-            //baca exception iz nekog razloga
-            //SelectedMachine = null;
         }
     }
 }

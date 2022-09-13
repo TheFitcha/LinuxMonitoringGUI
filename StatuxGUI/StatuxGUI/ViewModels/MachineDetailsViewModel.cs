@@ -97,7 +97,10 @@ namespace StatuxGUI.ViewModels
             {
                 CurrentMachine = await _machineService.GetMachineById(SelectedMachineID);
             }
-            catch { }
+            catch (System.Exception ex)
+            {
+                await App.Current.MainPage.DisplayAlert("Error", ex.Message, "Ok");
+            }
         }
 
         public async Task GetCPUInfo()
@@ -108,7 +111,7 @@ namespace StatuxGUI.ViewModels
             }
             catch(Exception ex)
             {
-
+                await App.Current.MainPage.DisplayAlert("Error", ex.Message, "Ok");
             }
         }
 
@@ -123,7 +126,7 @@ namespace StatuxGUI.ViewModels
             }
             catch (Exception ex)
             {
-
+                await App.Current.MainPage.DisplayAlert("Error", ex.Message, "Ok");
             }
         }
 
@@ -135,7 +138,7 @@ namespace StatuxGUI.ViewModels
             }
             catch (Exception ex)
             {
-
+                await App.Current.MainPage.DisplayAlert("Error", ex.Message, "Ok");
             }
         }
 
