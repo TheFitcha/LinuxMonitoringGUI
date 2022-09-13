@@ -7,6 +7,8 @@
 
   <ItemGroup>
     <None Remove="appsettings.json" />
+    <None Remove="Assets\GIFs\confettiGif.gif" />
+    <None Remove="Assets\GIFs\confettiOnceGif.gif" />
     <None Remove="Assets\Icons\calendarIcon.png" />
     <None Remove="Assets\Icons\cpuCoreIcon.png" />
     <None Remove="Assets\Icons\cpuIcon.png" />
@@ -18,6 +20,8 @@
 
   <ItemGroup>
     <EmbeddedResource Include="appsettings.json" />
+    <EmbeddedResource Include="Assets\GIFs\confettiGif.gif" />
+    <EmbeddedResource Include="Assets\GIFs\confettiOnceGif.gif" />
     <EmbeddedResource Include="Assets\Icons\calendarIcon.png" />
     <EmbeddedResource Include="Assets\Icons\homeIcon.png" />
     <EmbeddedResource Include="Assets\Icons\machineIcon.png" />

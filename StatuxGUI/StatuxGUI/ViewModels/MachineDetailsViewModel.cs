@@ -61,6 +61,15 @@ namespace StatuxGUI.ViewModels
             get => backgroundColor;
             set => SetProperty(ref backgroundColor, value);
         }
+
+        private string confettiName;
+        private bool isVisibleConfetti;
+        public bool IsVisibleConfetti
+        {
+            get => isVisibleConfetti;
+            set => SetProperty(ref isVisibleConfetti, value);
+        }
+        
         public MachineDetailsViewModel()
         {
             RefreshCommand = new AsyncCommand(Refresh);
@@ -77,6 +86,9 @@ namespace StatuxGUI.ViewModels
             {
                 System.Diagnostics.Debug.WriteLine("found resource: " + res);
             }
+
+            confettiName = AppSettingsManager.Settings["confetti_name"];
+            IsVisibleConfetti = false;
         }
 
         private async Task Refresh()
@@ -88,6 +100,9 @@ namespace StatuxGUI.ViewModels
             await GetMemoryInfo();
             InitPhyicalMemoryChartData();
             InitSwapMemoryChartData();
+
+            if (currentMachine.Name.ToLower().Equals(confettiName)) IsVisibleConfetti = true;
+
             IsBusy = false;
         }
 

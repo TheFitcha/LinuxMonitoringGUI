@@ -25,75 +25,120 @@
             Command="{Binding RefreshCommand}"/>
     </ContentPage.Behaviors>
 
+
+
     <RefreshView IsRefreshing="{Binding IsBusy, Mode=OneWay}"
                  Command="{Binding RefreshCommand}">
-        <StackLayout BackgroundColor="{Binding BackgroundColor}">
 
-            <Label x:Name="machineName"
-                   Text="{Binding CurrentMachine.Name}"
-                   FontSize="20"
-                   VerticalOptions="CenterAndExpand"
-                   HorizontalOptions="CenterAndExpand"
-                   Padding="0,20,0,10"
-                   TextColor="Black"
-                   BackgroundColor="Transparent"/>
+        <StackLayout>
+            
 
-            <chart:ChartView
-                x:Name="physicalMemoryChart"
-                HeightRequest="150"
-                Chart="{Binding PhysicalMemoryChart}"/>
+        
+            <Grid BackgroundColor="{Binding BackgroundColor}">
 
-            <chart:ChartView
-                x:Name="swapMemoryChart"
-                HeightRequest="150"
-                Chart="{Binding SwapMemoryChart}"/>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="370"/>
+                    <RowDefinition Height="200"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
 
-            <StackLayout Orientation="Horizontal"
-                        Padding="10"
-                        HeightRequest="150">
-                <Image Source="{local:ImageResource StatuxGUI.Assets.Icons.cpuIcon.png}" HeightRequest="50" WidthRequest="50"/>
-                <Label
-                x:Name="ProcessorName"
-                VerticalOptions="CenterAndExpand"
-                FontSize="20"
-                Margin="10, 5"
-                Text="{Binding CurrentProcessor.Name, StringFormat='Processor: {0}'}"
-                BackgroundColor="Transparent"
-                TextColor="Black"/>
-            </StackLayout>
+                <Image Grid.Row="0"
+                   Source="confetti.gif" 
+                   IsAnimationPlaying="True"
+                   HeightRequest="500"
+                   WidthRequest="500"
+                   x:Name="ConfettiLoop"
+                   IsVisible="{Binding IsVisibleConfetti}"/>
+                
+                <Grid Grid.Row="0">
 
-            <ScrollView>
-                <ListView
-                    x:Name="CoresList"
-                    ItemsSource="{Binding CurrentCores}"
-                    BackgroundColor="Transparent"
-                    HasUnevenRows="True">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="70"/>
+                        <RowDefinition Height="150"/>
+                        <RowDefinition Height="150"/>
+                    </Grid.RowDefinitions>
 
-                    <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="model:Core">
-                            <ViewCell>
-                                <StackLayout Orientation="Horizontal">
-                                    <Image Source="{local:ImageResource StatuxGUI.Assets.Icons.cpuCoreIcon.png}" HeightRequest="50" WidthRequest="50" Margin="15"/>
-                                    <StackLayout Padding="10" Margin="10, 0">
-                                        <Label VerticalOptions="Center"
-                                            FontSize="20"
-                                            Text="{Binding CoreNo, StringFormat='CoreNo: {0}'}"
-                                            TextColor="Black"/>
-                                        <Label VerticalOptions="Center"
-                                            FontSize="20"
-                                            Text="{Binding Speed, StringFormat='Speed: {0} MHz'}"
-                                            TextColor="Black"/>
-                                        <Label VerticalOptions="Center"
-                                            FontSize="20"
-                                            Text="{Binding CacheSizeKb, StringFormat='Cache: {0} kB'}"
-                                            TextColor="Black"/>
+                    <Label x:Name="machineName"
+                       Text="{Binding CurrentMachine.Name}"
+                       FontSize="20"
+                       VerticalOptions="CenterAndExpand"
+                       HorizontalOptions="CenterAndExpand"
+                       Padding="0,20,0,10"
+                       TextColor="Black"
+                       BackgroundColor="Transparent"
+                       Grid.Row="0"/>
+
+                    <chart:ChartView
+                    x:Name="physicalMemoryChart"
+                    HeightRequest="150"
+                    Chart="{Binding PhysicalMemoryChart}"
+                    Grid.Row="1"/>
+
+                    <chart:ChartView
+                    x:Name="swapMemoryChart"
+                    HeightRequest="150"
+                    Chart="{Binding SwapMemoryChart}"
+                    Grid.Row="2"/>
+                </Grid>
+
+                <Grid Grid.Row="1">
+                    <Image
+                       Source="confettiOnce.gif" 
+                       IsAnimationPlaying="True"
+                       HeightRequest="500"
+                       WidthRequest="500"
+                       x:Name="ConfettiCPU"
+                       IsVisible="{Binding IsVisibleConfetti}"/>
+                    
+                    <StackLayout Orientation="Horizontal"
+                            Padding="10"
+                            HeightRequest="150">
+                        <Image Source="{local:ImageResource StatuxGUI.Assets.Icons.cpuIcon.png}" HeightRequest="50" WidthRequest="50"/>
+                        <Label
+                            x:Name="ProcessorName"
+                            VerticalOptions="CenterAndExpand"
+                            FontSize="20"
+                            Margin="10, 5"
+                            Text="{Binding CurrentProcessor.Name, StringFormat='Processor: {0}'}"
+                            BackgroundColor="Transparent"
+                            TextColor="Black"/>
+                    </StackLayout>
+                </Grid>
+                
+
+                <ScrollView Grid.Row="2">
+                    <ListView
+                        x:Name="CoresList"
+                        ItemsSource="{Binding CurrentCores}"
+                        BackgroundColor="Transparent"
+                        HasUnevenRows="True">
+
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="model:Core">
+                                <ViewCell>
+                                    <StackLayout Orientation="Horizontal">
+                                        <Image Source="{local:ImageResource StatuxGUI.Assets.Icons.cpuCoreIcon.png}" HeightRequest="50" WidthRequest="50" Margin="15"/>
+                                        <StackLayout Padding="10" Margin="10, 0">
+                                            <Label VerticalOptions="Center"
+                                                FontSize="20"
+                                                Text="{Binding CoreNo, StringFormat='CoreNo: {0}'}"
+                                                TextColor="Black"/>
+                                            <Label VerticalOptions="Center"
+                                                FontSize="20"
+                                                Text="{Binding Speed, StringFormat='Speed: {0} MHz'}"
+                                                TextColor="Black"/>
+                                            <Label VerticalOptions="Center"
+                                                FontSize="20"
+                                                Text="{Binding CacheSizeKb, StringFormat='Cache: {0} kB'}"
+                                                TextColor="Black"/>
+                                        </StackLayout>
                                     </StackLayout>
-                                </StackLayout>
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </ScrollView>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </ScrollView>
+            </Grid>
         </StackLayout>
     </RefreshView>
 </ContentPage>
